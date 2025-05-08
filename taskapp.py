@@ -16,8 +16,22 @@ def add_task():
         if task.lower() == 'cancel':
             print("Task addition cancelled.")
             return
-        if not task.strip():  # Check for empty or whitespace-only strings
-            print("Task cannot be empty. Please enter a valid task.")
+        # Check for empty, whitespace-only, or non-alphanumeric strings
+        stripped_task = task.strip()
+        if not stripped_task or not any(char.isalnum() for char in stripped_task):
+            #Iterates through each character in the task string and checks if any character is alphanumeric"
+            # If not, it means the task is empty or contains only symbols
+            # or whitespace. This will effectively block inputs like:
+                    # "" 
+                    # " " 
+                    # " 
+                    # "!" 
+                    # "@#$" 
+            # But it will allow inputs like:
+                    # "a"
+                    # "Task 1"
+                    # "Buy milk!"
+            print("Task cannot be empty, whitespace-only, or contain only symbols. Please enter a valid task.")
         else: # Task is not empty and not 'cancel'
             if len(task) > 50:
                 print("Task is too long. Please limit to 50 characters.")
@@ -50,16 +64,20 @@ def delete_task():
     Displays tasks first. Handles cases where the task is not found.
     """
     view_tasks()
-    if not tasklist:
-        return # No tasks to delete
+    while True:
+        if not tasklist: #checks for falsy/empty task list
+            return # No tasks to delete
 
-    try:
-        deletedtask = input("Enter the name of the task to delete: ")
-        tasklist.remove(deletedtask)
-    except ValueError:
-        print("Invalid input. Please enter an existing task") #Alert notfound
-    else:
-        print(f"Task '{deletedtask}' deleted.")
+        try:
+            deletedtask = input("Enter the name of the task to delete or type 'cancel' to return to the menu: ")
+            tasklist.remove(deletedtask)
+        except ValueError:
+            if deletedtask.lower() == 'cancel':
+                break
+            print("Invalid input. Please enter an existing task") #Alert notfound
+        else:
+            print(f"Task '{deletedtask}' deleted.")
+            break
 
 # Quit the application
 def quit_app():
