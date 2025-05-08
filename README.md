@@ -9,7 +9,11 @@ This Python application allows users to add, view, and delete tasks. It's design
 ## Features
 
 - **Add Tasks:** Add new tasks to your to-do list.
-  - Input validation prevents empty tasks, duplicate tasks (case-sensitive), and tasks longer than 50 characters.
+  - Input validation prevents:
+    - Empty tasks or tasks consisting only of whitespace.
+    - Tasks containing only symbols (at least one letter or number is required).
+    - Duplicate tasks (case-sensitive).
+    - Tasks longer than 50 characters.
 - **View Tasks:** Display all current tasks with a corresponding number.
 - **Delete Tasks:** Remove tasks from the list by specifying the task name.
 - **Quit:** Exit the application.
